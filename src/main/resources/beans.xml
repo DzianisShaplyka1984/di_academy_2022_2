@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+    "
+    default-init-method="init">
+
+  <bean id="manager" class="com.academy.db.DataBaseManager">
+    <property name="name" value="My Cool manager"/>
+    <constructor-arg name="dataSource" ref="dataSource"/>
+  </bean>
+
+  <bean id="dataSource" class="com.academy.db.datasource.impl.MysqlDataSource">
+  </bean>
+
+  <bean id="secondManager" class="com.academy.db.DataBaseManager" p:name="name" p:dataSource-ref="dataSource">
+  </bean>
+
+  <bean id="author" class="com.academy.Author">
+    <constructor-arg name="age" value="80"/>
+    <property name="name" value="Ivan"/>
+    <property name="pi" value="#{T(Math).PI*10}"/>
+    <property name="adult" value="#{author.age gt 18 and author.age lt 65}"/>
+    <property name="phones">
+      <map>
+        <entry key="HOME" value="80152678493"/>
+        <entry key="MOBILE" value="37544765431"/>
+      </map>
+    </property>
+    <property name="alias">
+      <set>
+        <value>Petya</value>
+        <value>Sergey</value>
+        <value>Petya</value>
+      </set>
+    </property>
+    <property name="books">
+      <map>
+        <entry key="#{book1.isbn}" value="#{book1}"/>
+        <entry key="#{book2.isbn}" value="#{book2}"/>
+        <entry key="#{book3.isbn}" value="#{book3}"/>
+      </map>
+    </property>
+    <property name="props">
+      <props>
+        <prop key="height">180</prop>
+        <prop key="weight">80</prop>
+        <prop key="animal">dog</prop>
+      </props>
+    </property>
+  </bean>
+
+  <bean id="book1" class="com.academy.Book" p:isbn="NFIEDJS2343432432"/>
+  <bean id="book2" class="com.academy.Book" p:isbn="DGDGDGF44325324"/>
+  <bean id="book3" class="com.academy.Book" p:isbn="JFJDNJF23423"/>
+</beans>
